@@ -38,6 +38,7 @@
     "celebrate": "^12.1.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "crypto": "^1.0.1",
     "eslint-config-prettier": "^10.1.8",
     "http-errors": "^2.0.1",
     "mongoose": "^9.5.0"
