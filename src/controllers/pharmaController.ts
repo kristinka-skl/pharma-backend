@@ -3,14 +3,21 @@ import type { Request, Response,
 } from 'express';
 import { Order } from '../models/order.js';
 
+interface GetOrdersQuery {
+  page: number;
+  perPage: number;
+  search?: string;
+}
+
+type TypedRequest = Request & { query: GetOrdersQuery };
+
 export const getOrders = async (
-  req: Request,
+  req: TypedRequest,
   res: Response,
   // next: NextFunction,
 ) => {
-  const { pageQuery = 1, perPageQuery = 5, search } = req.query;
-  const page = Number(pageQuery);
-  const perPage = Number(perPageQuery);
+  const { page, perPage, search } = req.query;
+
   const skip = (page - 1) * perPage;
 
   const ordersQuery = Order

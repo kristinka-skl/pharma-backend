@@ -35,6 +35,9 @@ const orderSchema = new Schema(
     versionKey: false,
   },
 );
-
+orderSchema.index({ name: "text" }, {
+    name: "NameTextIndex",
+    default_language: "english",
+  });
 export const Order = model('Order', orderSchema);
 
