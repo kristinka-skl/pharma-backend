@@ -6,6 +6,9 @@ import type { UserType } from '../@types/auth.js';
 
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('req:', req);
+  console.log('req.cookies:', req.cookies);
+  console.log('req.headers:', req.headers);
   if (!req.cookies.accessToken) {
     next(createHttpError(401, 'Missing access token'));
     return;

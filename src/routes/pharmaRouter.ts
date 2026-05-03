@@ -6,6 +6,8 @@ import { getOrdersSchema } from '../validations/orderValidation.js';
 
 const router = Router();
 
-router.get('/api/orders', authenticate, celebrate(getOrdersSchema), getOrders)
+router.get('/api/orders',
+  authenticate,
+  celebrate(getOrdersSchema), getOrders)
 
 export default router;
