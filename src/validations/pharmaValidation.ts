@@ -17,7 +17,7 @@ export const addSupplierSchema = {
     address: Joi.string().trim().required(),
     suppliers: Joi.string().trim().required(),
     date: Joi.string().trim().required(),
-    amount: Joi.string().trim().required(),
+    amount: Joi.number().required(),
     status: Joi.string().valid(...Status).required(),
   }),
 };
@@ -44,7 +44,48 @@ export const updateSupplierSchema = {
     address: Joi.string().trim().required(),
     suppliers: Joi.string().trim().required(),
     date: Joi.string().trim().required(),
-    amount: Joi.string().trim().required(),
+    amount: Joi.number().required(),
     status: Joi.string().valid(...Status).required(),
   }),
 };
+
+export const productIdSchema = {
+  [Segments.PARAMS]: Joi.object({
+    productId: Joi.string()
+      .trim()
+      .custom((value, helpers) => {
+        if (!isValidObjectId(value)) {
+          return helpers.message({ custom: 'Invalid id format' });
+        }
+        return value;
+      })
+      .required(),
+  })
+};
+
+export const addProductSchema = {
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().trim().required(),
+    photo: Joi.string().trim().required(),
+    suppliers: Joi.string().trim().required(),
+    // id: Joi.number().required(),
+    price: Joi.number().positive().required(),
+    stock: Joi.number().integer().min(0).required(),
+    category: Joi.string().trim().required(),
+  }),
+};
+
+
+export const updateProductSchema = {
+  ...productIdSchema,
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().trim().required(),
+    photo: Joi.string().trim().required(),
+    suppliers: Joi.string().trim().required(),
+    // id: Joi.number().required(),
+    price: Joi.number().positive().required(),
+    stock: Joi.number().integer().min(0).required(),
+    category: Joi.string().trim().required(),
+  }),
+};
+
