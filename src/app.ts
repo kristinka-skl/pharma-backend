@@ -17,7 +17,7 @@ app.use(cookieParser());
 // Routes
 app.use(authRouter);
 app.use(pharmaRouter);
-// app.use('/api/items', itemRoutes);
+
 
 // Global error handler (should be after routes)
 app.use(errors());
