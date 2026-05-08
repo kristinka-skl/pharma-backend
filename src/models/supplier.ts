@@ -10,7 +10,7 @@ const supplierSchema = new Schema(
       trim: true,
     },
     amount: {
-      type: String,
+      type: Number,
       trim: true,
     },
     address: {

@@ -1,13 +1,11 @@
-import type {
-  Request,
-  Response,
-  NextFunction
-} from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { Order } from '../models/order.js';
 import { Customer } from '../models/customer.js';
 import { Supplier } from '../models/supplier.js';
 import createHttpError from 'http-errors';
 import { Product } from '../models/product.js';
+import type { incomeExpens, recentCustomer } from '../@types/pharma.js';
+import { IncomeExpens } from '../models/incomeExpens.js';
 
 interface GetQuery {
   page: number;
@@ -81,6 +79,24 @@ export const getCustomers = async (req: TypedRequest, res: Response) => {
   });
 };
 
+// export const addCustomer = async (req: TypedRequest, res: Response) => {
+//   const now = new Date();
+//   const formattedDate = now.toLocaleDateString('en-US', {
+//     month: 'short',
+//     day: 'numeric',
+//     year: 'numeric',
+//   });
+
+//   const customer = await Customer.create({
+//     ...req.body,
+//     register_date: formattedDate,
+//     sort_date: now,
+//   });
+
+//   res.status(201).json(customer);
+// };
+
+
 export const getSuppliers = async (req: TypedRequest, res: Response) => {
   const { page, perPage, search } = req.query;
 
@@ -117,18 +133,25 @@ export const addSupplier = async (req: TypedRequest, res: Response) => {
     // userId: req.user._id,
   });
   res.status(201).json(supplier);
-}
+};
 
-export const updateSupplier = async (req: TypedRequest, res: Response, next: NextFunction) => {
+export const updateSupplier = async (
+  req: TypedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   const { supplierId } = req.params;
-  const supplier = await Supplier.findOneAndUpdate({_id: supplierId}, req.body, { new: true });
+  const supplier = await Supplier.findOneAndUpdate(
+    { _id: supplierId },
+    req.body,
+    { new: true },
+  );
   if (!supplier) {
     next(createHttpError(404, 'Supplier not found'));
     return;
   }
   res.status(200).json(supplier);
 };
-
 
 export const getProducts = async (req: TypedRequest, res: Response) => {
   const { page, perPage, search } = req.query;
@@ -166,24 +189,78 @@ export const addProduct = async (req: TypedRequest, res: Response) => {
     // userId: req.user._id,
   });
   res.status(201).json(product);
-}
+};
 
-export const updateProduct = async (req: TypedRequest, res: Response, next: NextFunction) => {
+export const updateProduct = async (
+  req: TypedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   const { productId } = req.params;
-  const product = await Product.findOneAndUpdate({_id: productId}, req.body, { new: true });
+  const product = await Product.findOneAndUpdate({ _id: productId }, req.body, {
+    new: true,
+  });
   if (!product) {
-    next(createHttpError(404, 'Supplier not found'));
+    next(createHttpError(404, 'Product not found'));
     return;
   }
   res.status(200).json(product);
 };
 
-export const deleteProduct = async (req: TypedRequest, res: Response, next: NextFunction) => {
+export const deleteProduct = async (
+  req: TypedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   const { productId } = req.params;
-  const product = await Product.findOneAndDelete({_id: productId});
+  const product = await Product.findOneAndDelete({ _id: productId });
   if (!product) {
-    next(createHttpError(404, 'Note not found'));
+    next(createHttpError(404, 'Product not found'));
     return;
   }
   res.status(200).json(product);
+};
+
+interface GetDashboardResponse {
+  statistics: {
+    products: number;
+    suppliers: number;
+    customers: number;
+  };
+  recentCustomers: recentCustomer[];
+  incomeExpenses: incomeExpens[];
+}
+
+type TypedResponse = Response<{ data: GetDashboardResponse }>;
+
+export const getDashboard = async (_req: Request, res: TypedResponse) => {
+  const [
+    productsCount,
+    suppliersCount,
+    customersCount,
+    recentCustomers,
+    incomeExpenses
+  ] = await Promise.all([
+    Product.countDocuments(),
+    Supplier.countDocuments(),
+    Customer.countDocuments(),
+    Customer.find().sort({ sort_date: -1 }).limit(5),
+    IncomeExpens.find()
+  ]);
+
+  const statistics = {
+    products: productsCount,
+    suppliers: suppliersCount,
+    customers: customersCount,
+  };
+
+
+const responseData = { statistics, recentCustomers, incomeExpenses };
+
+  console.log('🟢 [API] /api/dashboard - Final Response:');
+  console.dir(responseData, { depth: null, colors: true });
+  console.log(JSON.stringify(responseData, null, 2));
+
+
+  res.status(200).json({ data: { statistics, recentCustomers, incomeExpenses } });
 };

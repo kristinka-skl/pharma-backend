@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import type { recentCustomer } from '../@types/pharma.js';
 const customerSchema = new Schema(
   {
     photo: {
@@ -8,15 +9,17 @@ const customerSchema = new Schema(
     name: {
       type: String,
       trim: true,
+      required: true,
     },
     email: {
       type: String,
       trim: true,
+      required: true,
     },
     spent: {
-      type: String,
-      trim: true,
-    },
+      type: Number,
+      required: true,
+      default: 0 },
     address: {
       type: String,
       trim: true,
@@ -29,15 +32,18 @@ const customerSchema = new Schema(
       type: String,
       trim: true,
     },
+    sort_date: { type: Date },
   },
   {
     timestamps: true,
     versionKey: false,
   },
 );
-customerSchema.index({ name: "text" }, {
-    name: "NameTextIndex",
-    default_language: "english",
-  });
-export const Customer = model('Customer', customerSchema);
-
+customerSchema.index(
+  { name: 'text' },
+  {
+    name: 'NameTextIndex',
+    default_language: 'english',
+  },
+);
+export const Customer = model<recentCustomer>('Customer', customerSchema);

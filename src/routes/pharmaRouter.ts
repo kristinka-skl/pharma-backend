@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { authenticate } from '../middlewares/authenticate.js';
-import { addProduct, addSupplier, deleteProduct, getCustomers, getOrders, getProducts, getSuppliers, updateProduct, updateSupplier } from '../controllers/pharmaController.js';
+import { addProduct, addSupplier, deleteProduct, getCustomers, getDashboard, getOrders, getProducts, getSuppliers, updateProduct, updateSupplier } from '../controllers/pharmaController.js';
 import { celebrate } from 'celebrate';
 import { addProductSchema, addSupplierSchema, getDataSchema, productIdSchema, updateProductSchema, updateSupplierSchema } from '../validations/pharmaValidation.js';
 
 const router = Router();
+
+router.get('/api/dashboard', authenticate, getDashboard);
 
 router.get('/api/orders', authenticate, celebrate(getDataSchema), getOrders);
 

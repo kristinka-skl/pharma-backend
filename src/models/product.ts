@@ -18,7 +18,7 @@ const productSchema = new Schema(
       trim: true,
     },
     price: {
-      type: String,
+      type: Number,
       trim: true,
     },
     stock: {
