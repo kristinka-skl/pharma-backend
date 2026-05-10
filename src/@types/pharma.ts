@@ -1,4 +1,4 @@
-export interface recentCustomer {
+export interface RecentCustomer {
   name: string;
   email: string;
   spent: number;
@@ -8,7 +8,7 @@ export interface recentCustomer {
   register_date?: string;
 }
 
-export interface incomeExpens {
+export interface IncomeExpenseType {
   type: string;
   name: string;
   amount: number;

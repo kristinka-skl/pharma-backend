@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
-import type { incomeExpens } from '../@types/pharma.js';
-const incomeExpensSchema = new Schema(
+import type { IncomeExpenseType } from '../@types/pharma.js';
+
+const incomeExpenseSchema = new Schema(
   {
     name: {
       type: String,
@@ -20,5 +21,5 @@ const incomeExpensSchema = new Schema(
   },
 );
 
-export const IncomeExpens = model<incomeExpens>('IncomeExpens', incomeExpensSchema, 'incomeExpenses');
+export const IncomeExpense = model<IncomeExpenseType>('IncomeExpense', incomeExpenseSchema, 'incomeExpenses');
 

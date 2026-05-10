@@ -4,8 +4,8 @@ import { Customer } from '../models/customer.js';
 import { Supplier } from '../models/supplier.js';
 import createHttpError from 'http-errors';
 import { Product } from '../models/product.js';
-import type { incomeExpens, recentCustomer } from '../@types/pharma.js';
-import { IncomeExpens } from '../models/incomeExpens.js';
+import type { IncomeExpenseType, RecentCustomer } from '../@types/pharma.js';
+import { IncomeExpense } from '../models/incomeExpense.js';
 
 interface GetQuery {
   page: number;
@@ -227,8 +227,8 @@ interface GetDashboardResponse {
     suppliers: number;
     customers: number;
   };
-  recentCustomers: recentCustomer[];
-  incomeExpenses: incomeExpens[];
+  recentCustomers: RecentCustomer[];
+  incomeExpenses: IncomeExpenseType[];
 }
 
 type TypedResponse = Response<{ data: GetDashboardResponse }>;
@@ -245,7 +245,7 @@ export const getDashboard = async (_req: Request, res: TypedResponse) => {
     Supplier.countDocuments(),
     Customer.countDocuments(),
     Customer.find().sort({ sort_date: -1 }).limit(5),
-    IncomeExpens.find()
+    IncomeExpense.find()
   ]);
 
   const statistics = {
@@ -253,14 +253,6 @@ export const getDashboard = async (_req: Request, res: TypedResponse) => {
     suppliers: suppliersCount,
     customers: customersCount,
   };
-
-
-const responseData = { statistics, recentCustomers, incomeExpenses };
-
-  console.log('🟢 [API] /api/dashboard - Final Response:');
-  console.dir(responseData, { depth: null, colors: true });
-  console.log(JSON.stringify(responseData, null, 2));
-
 
   res.status(200).json({ data: { statistics, recentCustomers, incomeExpenses } });
 };

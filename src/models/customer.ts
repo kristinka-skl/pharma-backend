@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import type { recentCustomer } from '../@types/pharma.js';
+import type { RecentCustomer } from '../@types/pharma.js';
 const customerSchema = new Schema(
   {
     photo: {
@@ -46,4 +46,4 @@ customerSchema.index(
     default_language: 'english',
   },
 );
-export const Customer = model<recentCustomer>('Customer', customerSchema);
+export const Customer = model<RecentCustomer>('Customer', customerSchema);
