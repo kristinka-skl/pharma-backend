@@ -231,7 +231,7 @@ interface GetDashboardResponse {
   incomeExpenses: IncomeExpenseType[];
 }
 
-type TypedResponse = Response<{ data: GetDashboardResponse }>;
+type TypedResponse = Response<GetDashboardResponse>;
 
 export const getDashboard = async (_req: Request, res: TypedResponse) => {
   const [
@@ -245,7 +245,7 @@ export const getDashboard = async (_req: Request, res: TypedResponse) => {
     Supplier.countDocuments(),
     Customer.countDocuments(),
     Customer.find().sort({ sort_date: -1 }).limit(5),
-    IncomeExpense.find()
+    IncomeExpense.find().limit(6)
   ]);
 
   const statistics = {
@@ -254,5 +254,5 @@ export const getDashboard = async (_req: Request, res: TypedResponse) => {
     customers: customersCount,
   };
 
-  res.status(200).json({ data: { statistics, recentCustomers, incomeExpenses } });
+  res.status(200).json({ statistics, recentCustomers, incomeExpenses });
 };

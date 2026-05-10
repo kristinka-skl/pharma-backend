@@ -13,7 +13,7 @@ const incomeExpenseSchema = new Schema(
       trim: true,
       required: true,
     },
-    amount: { type: Number, required: true, default: 0 }
+    amount: { type: String, required: true, default: 0 }
   },
   {
     timestamps: true,

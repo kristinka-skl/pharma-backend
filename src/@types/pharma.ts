@@ -11,5 +11,5 @@ export interface RecentCustomer {
 export interface IncomeExpenseType {
   type: string;
   name: string;
-  amount: number;
+  amount: string;
 }
