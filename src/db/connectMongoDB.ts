@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Order } from '../models/order.js';
 // import { Note } from '../models/note.js';
 
 export const connectMongoDB = async () => {
@@ -7,7 +8,7 @@ export const connectMongoDB = async () => {
     if (!mongoUrl) throw new Error('Missing env MONGODB_URL');
     await mongoose.connect(mongoUrl);
     console.log('✅ MongoDB connection established successfully');
-    // await Note.syncIndexes();
+    await Order.syncIndexes();
     console.log('Indexes synced successfully');
   } catch (error) {
     if (error instanceof Error) {
