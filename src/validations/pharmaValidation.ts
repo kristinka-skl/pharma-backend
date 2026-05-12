@@ -65,12 +65,10 @@ export const productIdSchema = {
 
 export const addProductSchema = {
   [Segments.BODY]: Joi.object({
-    name: Joi.string().trim().required(),
-    photo: Joi.string().trim().required(),
-    suppliers: Joi.string().trim().required(),
-    // id: Joi.number().required(),
-    price: Joi.number().positive().required(),
-    stock: Joi.number().integer().min(0).required(),
+    name: Joi.string().trim().min(1).max(1000).required(),
+    suppliers: Joi.string().trim().min(1).max(1000).required(),
+    price: Joi.number().positive().max(10000000).required(),
+    stock: Joi.number().integer().max(1000000).min(0).required(),
     category: Joi.string().trim().required(),
   }),
 };
@@ -79,12 +77,10 @@ export const addProductSchema = {
 export const updateProductSchema = {
   ...productIdSchema,
   [Segments.BODY]: Joi.object({
-    name: Joi.string().trim().required(),
-    photo: Joi.string().trim().required(),
-    suppliers: Joi.string().trim().required(),
-    // id: Joi.number().required(),
-    price: Joi.number().positive().required(),
-    stock: Joi.number().integer().min(0).required(),
+    name: Joi.string().trim().min(1).max(1000).required(),
+    suppliers: Joi.string().trim().min(1).max(1000).required(),
+    price: Joi.number().positive().max(10000000).required(),
+    stock: Joi.number().integer().max(1000000).min(0).required(),
     category: Joi.string().trim().required(),
   }),
 };

@@ -5,10 +5,6 @@ const productSchema = new Schema(
       type: String,
       trim: true,
     },
-    photo: {
-      type: String,
-      trim: true,
-    },
     id: {
       type: String,
       trim: true,
@@ -22,7 +18,7 @@ const productSchema = new Schema(
       trim: true,
     },
     stock: {
-      type: String,
+      type: Number,
       trim: true,
     },
     category: {
