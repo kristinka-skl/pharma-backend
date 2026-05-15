@@ -13,9 +13,9 @@ export const getDataSchema = {
 
 export const addSupplierSchema = {
   [Segments.BODY]: Joi.object({
-    name: Joi.string().trim().required(),
-    address: Joi.string().trim().required(),
-    suppliers: Joi.string().trim().required(),
+    name: Joi.string().max(300).trim().required(),
+    address: Joi.string().max(300).trim().required(),
+    suppliers: Joi.string().max(300).trim().required(),
     date: Joi.string().trim().required(),
     amount: Joi.number().required(),
     status: Joi.string().valid(...Status).required(),
@@ -40,9 +40,9 @@ export const supplierIdSchema = {
 export const updateSupplierSchema = {
   ...supplierIdSchema,
   [Segments.BODY]: Joi.object({
-    name: Joi.string().trim().required(),
-    address: Joi.string().trim().required(),
-    suppliers: Joi.string().trim().required(),
+    name: Joi.string().max(300).trim().required(),
+    address: Joi.string().max(300).trim().required(),
+    suppliers: Joi.string().max(300).trim().required(),
     date: Joi.string().trim().required(),
     amount: Joi.number().required(),
     status: Joi.string().valid(...Status).required(),
@@ -65,8 +65,8 @@ export const productIdSchema = {
 
 export const addProductSchema = {
   [Segments.BODY]: Joi.object({
-    name: Joi.string().trim().min(1).max(1000).required(),
-    suppliers: Joi.string().trim().min(1).max(1000).required(),
+    name: Joi.string().trim().min(1).max(300).required(),
+    suppliers: Joi.string().trim().min(1).max(300).required(),
     price: Joi.number().positive().max(10000000).required(),
     stock: Joi.number().integer().max(1000000).min(0).required(),
     category: Joi.string().trim().required(),
@@ -77,8 +77,8 @@ export const addProductSchema = {
 export const updateProductSchema = {
   ...productIdSchema,
   [Segments.BODY]: Joi.object({
-    name: Joi.string().trim().min(1).max(1000).required(),
-    suppliers: Joi.string().trim().min(1).max(1000).required(),
+    name: Joi.string().trim().min(1).max(300).required(),
+    suppliers: Joi.string().trim().min(1).max(300).required(),
     price: Joi.number().positive().max(10000000).required(),
     stock: Joi.number().integer().max(1000000).min(0).required(),
     category: Joi.string().trim().required(),
