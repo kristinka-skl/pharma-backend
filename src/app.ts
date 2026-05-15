@@ -11,11 +11,17 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 const app = express();
 
+const corsOptions = {
+  origin: 'https://pharma-frontend-dashboard.vercel.app',
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+app.use(cors(corsOptions));
 app.use(express.json({
       type: ['application/json'],
       limit: '100kb',
     }));
-app.use(cors());
 app.use(cookieParser());
 
 
