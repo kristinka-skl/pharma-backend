@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authenticate } from '../middlewares/authenticate.js';
-import { addProduct, addSupplier, deleteProduct, getCustomers, getDashboard, getOrders, getProducts, getSuppliers, updateProduct, updateSupplier } from '../controllers/pharmaController.js';
+import { addProduct, addSupplier, deleteProduct, getCustomerById, getCustomers, getDashboard, getOrders, getProducts, getSuppliers, updateProduct, updateSupplier } from '../controllers/pharmaController.js';
 import { celebrate } from 'celebrate';
 import { addProductSchema, addSupplierSchema, getDataSchema, productIdSchema, updateProductSchema, updateSupplierSchema } from '../validations/pharmaValidation.js';
 
@@ -11,6 +11,7 @@ router.get('/api/dashboard', authenticate, getDashboard);
 router.get('/api/orders', authenticate, celebrate(getDataSchema), getOrders);
 
 router.get('/api/customers', authenticate, celebrate(getDataSchema), getCustomers);
+router.get('/api/customers/:customerId', authenticate, getCustomerById);
 
 router.get('/api/suppliers', authenticate, celebrate(getDataSchema), getSuppliers);
 router.post('/api/suppliers', authenticate, celebrate(addSupplierSchema), addSupplier);

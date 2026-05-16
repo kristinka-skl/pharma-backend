@@ -10,7 +10,6 @@ export const loginUser = async (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log('Hello from LoginUser');
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
